@@ -1,2 +1,2 @@
 "# ponto"
-![ponto-home](https://github.com/tfxspace/ponto/assets/54908199/ab2bafe4-b989-4f30-9fd6-04fee379ba5d)
+[screen-capture.webm](https://github.com/tfxspace/ponto/assets/54908199/3198860e-46c5-4583-8b3a-ba60584bb6f0)
