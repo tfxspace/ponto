@@ -1,15 +1,6 @@
 <?php
 include('connections.php');
 
-if (isset($_GET['type'])) {
-    if ($_GET['type'] == "in") {
-        $conn->query("INSERT INTO `timetable` (`id`, `date`, `type`) VALUES (NULL, NOW(), 'in')");
-        header("Refresh:0; url=index.php");
-    } else {
-        $conn->query("INSERT INTO `timetable` (`id`, `date`, `type`) VALUES (NULL, NOW(), 'out')");
-        header("Refresh:0; url=index.php");
-    }
-}
 
 $sql = '
 SELECT
@@ -21,15 +12,10 @@ SELECT
     ) type
     FROM timetable
     ORDER BY date DESC
-    LIMIT 0,5
+    LIMIT 0,50
 ';
 
-$sql1 = "SELECT type FROM `timetable` ORDER BY `timetable`.`date` DESC LIMIT 0,1";
-
-
 $result = $conn->query($sql);
-$result1 = $conn->query($sql1);
-
 
 ?>
 <!doctype html>
@@ -48,21 +34,7 @@ $result1 = $conn->query($sql1);
     <div class="container my-5">
         <div class="p-5 text-center bg-body-tertiary rounded-3">
             <h1><i class="bi bi-balloon-fill"></i> ponto.</h1>
-            <div class="row p-2">
-                <?php
-                $row1 = $result1->fetch_assoc();
-                if ($row1["type"] == "out") { ?>
-                    <a href="index.php?type=in" class="btn btn-success btn-lg px-4 rounded-pill">
-                        Punch in <i class="bi bi-box-arrow-in-right"></i>
-                    </a>
-                <?php } else { ?>
-                    <a href="index.php?type=out" class="btn btn-danger btn-lg px-4 rounded-pill">
-                        Punch out <i class="bi bi-box-arrow-in-left"></i>
-                    </a>
-                <?php } ?>
-
-            </div>
-            <h5>Latest logs:</h5>
+            <h5>Logs:</h5>
             <table class="table">
                 <tbody>
                     <?php
@@ -77,7 +49,7 @@ $result1 = $conn->query($sql1);
                     ?>
                 </tbody>
             </table>
-            <a href="table.php">See more</a>
+            <a href="index.php">Go back</a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
