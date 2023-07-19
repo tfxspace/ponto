@@ -1,22 +1,32 @@
-<? include('connections.php'); ?>
 <?php
+// Replace these credentials with your own
+$servername = "localhost";  // Server where your MySQL database is hosted
+$username = "root";  // Your MySQL username
+$password = "";  // Your MySQL password
+$dbname = "ponto";    // Your MySQL database name
 
-// SQL query to select data from a table
-$sql = "SELECT * FROM timetable"; // Replace 'your_table_name' with the actual table name
+// Create a connection to the MySQL database
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Execute the query
+// Check if the connection was successful
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$sql = '
+SELECT
+    DATE_FORMAT(date, "%Y/%m/%d %H:%i") date, 
+    IF(
+        type="in",
+        concat("<i class=\\"bi bi-box-arrow-in-right\\"></i> ",type),
+        concat("<i class=\\"bi bi-box-arrow-in-left\\"></i> ",type)
+    ) type
+    FROM timetable
+    ORDER BY date DESC
+    LIMIT 0,5
+';
+
 $result = $conn->query($sql);
 
-// Check if there are any results
-if ($result->num_rows > 0) {
-    // Output data for each row
-    while ($row = $result->fetch_assoc()) {
-        // Do something with the data, for example, print it
-        echo "ID: " . $row["date"] . " | Name: " . $row["type"] . "<br>";
-    }
-} else {
-    echo "No data found in the table.";
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -47,38 +57,16 @@ if ($result->num_rows > 0) {
             <h5>Latest logs:</h5>
             <table class="table">
                 <tbody>
-                    <tr>
-                        <td>2023/07/18 18:06</td>
-                        <td><i class="bi bi-box-arrow-in-left"></i> out</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/18 13:52</td>
-                        <td><i class="bi bi-box-arrow-in-right"></i> in</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/18 12:41</td>
-                        <td><i class="bi bi-box-arrow-in-left"></i> out</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/18 08:58</td>
-                        <td><i class="bi bi-box-arrow-in-right"></i> in</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/17 18:01</td>
-                        <td><i class="bi bi-box-arrow-in-left"></i> out</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/17 14:01</td>
-                        <td><i class="bi bi-box-arrow-in-right"></i> in</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/17 12:34</td>
-                        <td><i class="bi bi-box-arrow-in-left"></i> out</td>
-                    </tr>
-                    <tr>
-                        <td>2023/07/17 08:41</td>
-                        <td><i class="bi bi-box-arrow-in-right"></i> in</td>
-                    </tr>
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . $row["date"] . "</td><td>" . $row["type"] . "</td>";
+                        }
+                    } else {
+                        echo "No data found in the table.";
+                    }
+                    ?>
                 </tbody>
             </table>
             <a href="#">See more</a>
