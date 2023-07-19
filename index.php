@@ -1,3 +1,23 @@
+<? include('connections.php'); ?>
+<?php
+
+// SQL query to select data from a table
+$sql = "SELECT * FROM timetable"; // Replace 'your_table_name' with the actual table name
+
+// Execute the query
+$result = $conn->query($sql);
+
+// Check if there are any results
+if ($result->num_rows > 0) {
+    // Output data for each row
+    while ($row = $result->fetch_assoc()) {
+        // Do something with the data, for example, print it
+        echo "ID: " . $row["date"] . " | Name: " . $row["type"] . "<br>";
+    }
+} else {
+    echo "No data found in the table.";
+}
+?>
 <!doctype html>
 <html lang="en">
 
