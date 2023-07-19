@@ -1,0 +1,2 @@
+vendor/  # Ignore the vendor folder, which contains external libraries
+logs/    # Ignore log files
