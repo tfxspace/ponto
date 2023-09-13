@@ -3,3 +3,5 @@ ponto is a very simple web app for time tracking and attendance management. user
 ![screen-capture](https://github.com/tfxspace/ponto/assets/54908199/68fc4a16-fb73-4cdf-aa36-8d3e96fa2053)
 
 
+1. import ponto.sql into your database
+2. change the connections.php configuration according to actual configuration, to make sure the connection to the database is done
